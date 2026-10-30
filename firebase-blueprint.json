@@ -1,0 +1,150 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account profile and balances",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "demoBalance": { "type": "number" },
+        "realBalance": { "type": "number" },
+        "tradingMode": { "type": "string" },
+        "kycStatus": { "type": "string" },
+        "currency": { "type": "string" },
+        "favorites": { "type": "array" },
+        "isSuspended": { "type": "boolean" },
+        "role": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "demoBalance", "realBalance", "tradingMode", "currency"]
+    },
+    "Trade": {
+      "title": "Trade",
+      "description": "Trade contract order and resolution details",
+      "type": "object",
+      "properties": {
+        "tradeId": { "type": "string" },
+        "userId": { "type": "string" },
+        "symbol": { "type": "string" },
+        "assetName": { "type": "string" },
+        "assetCategory": { "type": "string" },
+        "mode": { "type": "string" },
+        "direction": { "type": "string" },
+        "durationSeconds": { "type": "number" },
+        "amount": { "type": "number" },
+        "entryPrice": { "type": "number" },
+        "closePrice": { "type": "number" },
+        "entryTime": { "type": "number" },
+        "closeTime": { "type": "number" },
+        "payoutRate": { "type": "number" },
+        "status": { "type": "string" },
+        "pnl": { "type": "number" },
+        "forcedOutcome": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["tradeId", "userId", "symbol", "direction", "durationSeconds", "amount", "entryPrice", "status"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Deposit, withdrawal, or balance adjustment record",
+      "type": "object",
+      "properties": {
+        "txId": { "type": "string" },
+        "userId": { "type": "string" },
+        "type": { "type": "string" },
+        "amount": { "type": "number" },
+        "currency": { "type": "string" },
+        "status": { "type": "string" },
+        "method": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "txHash": { "type": "string" },
+        "notes": { "type": "string" },
+        "adminApprovedBy": { "type": "string" }
+      },
+      "required": ["txId", "userId", "type", "amount", "currency", "status", "method", "timestamp"]
+    },
+    "SystemSetting": {
+      "title": "SystemSetting",
+      "description": "Admin platform settings, risk controls, and market direction bias",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "globalTradeBias": { "type": "string" },
+        "directionOverrides": { "type": "object" },
+        "disabledAssets": { "type": "array" },
+        "minTradeAmount": { "type": "number" },
+        "maxTradeAmount": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Admin actions, fund adjustments, and manual trade settlements",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "adminEmail": { "type": "string" },
+        "action": { "type": "string" },
+        "targetUserId": { "type": "string" },
+        "amount": { "type": "number" },
+        "reason": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "adminEmail", "action", "timestamp"]
+    },
+    "SupportTicket": {
+      "title": "SupportTicket",
+      "description": "Customer service conversation and ticket history",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "userName": { "type": "string" },
+        "subject": { "type": "string" },
+        "status": { "type": "string" },
+        "priority": { "type": "string" },
+        "lastMessage": { "type": "string" },
+        "lastMessageSender": { "type": "string" },
+        "unreadByAdmin": { "type": "boolean" },
+        "unreadByUser": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "userEmail", "status", "lastMessage"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profile and financial balance summary"
+    },
+    "/users/{userId}/trades/{tradeId}": {
+      "schema": { "$ref": "#/entities/Trade" },
+      "description": "Individual high/low trade executions by the user"
+    },
+    "/users/{userId}/transactions/{txId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "Deposit and withdrawal transactions for the user wallet"
+    },
+    "/support_tickets/{ticketId}": {
+      "schema": { "$ref": "#/entities/SupportTicket" },
+      "description": "Customer service live support tickets and direct message stream"
+    },
+    "/system_settings/{settingId}": {
+      "schema": { "$ref": "#/entities/SystemSetting" },
+      "description": "Global platform configurations and risk controls"
+    },
+    "/audit_logs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Immutable security and financial audit logs"
+    }
+  }
+}
+

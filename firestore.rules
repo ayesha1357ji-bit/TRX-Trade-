@@ -1,0 +1,50 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // User Accounts and Profiles (Saved in Backend)
+    match /users/{userId} {
+      allow get: if true;
+      allow list: if true;
+      allow create, update: if true;
+      allow delete: if request.auth != null && request.auth.token.email == 'ayesha1357ji@gmail.com';
+
+      // User Trades Subcollection
+      match /trades/{tradeId} {
+        allow get, list, create, update: if true;
+        allow delete: if request.auth != null && request.auth.token.email == 'ayesha1357ji@gmail.com';
+      }
+
+      // User Transactions Subcollection
+      match /transactions/{txId} {
+        allow get, list, create, update: if true;
+        allow delete: if request.auth != null && request.auth.token.email == 'ayesha1357ji@gmail.com';
+      }
+    }
+
+    // Global Platform System Settings (Trade direction control, risk limits)
+    match /system_settings/{settingId} {
+      allow read, write: if true;
+    }
+
+    // Financial & Security Audit Logs
+    match /audit_logs/{logId} {
+      allow read, write: if true;
+    }
+
+    // Customer Service Support Tickets & Live Desk Messages
+    match /support_tickets/{ticketId} {
+      allow read, write: if true;
+    }
+
+    // Admins Collection
+    match /admins/{adminId} {
+      allow read, write: if true;
+    }
+  }
+}

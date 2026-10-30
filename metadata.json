@@ -1,0 +1,6 @@
+{
+  "name": "TRXTRADE - Premium US Trading Platform",
+  "description": "Premier high-performance US trading platform specializing in Cryptocurrencies, Gold, US Equities, and Forex with live market feeds, high-precision charting, and secure wallet management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
